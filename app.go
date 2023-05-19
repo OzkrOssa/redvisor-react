@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
+	"os"
+
+	"github.com/OzkrOssa/redvisor-react/backend/repository"
 )
 
 // App struct
@@ -21,7 +24,12 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) CheckActiveUser(user string, host string) map[string]string {
+	mkt, err := repository.New(host, os.Getenv("MIKROTIK_API_USER"), os.Getenv("MIKROTIK_API_PASSWORD"), os.Getenv("MIKROTIK_API_PORT"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	userInfo := mkt.GetActiveConnection(user)
+	return userInfo
 }
