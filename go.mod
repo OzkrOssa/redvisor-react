@@ -1,8 +1,11 @@
-module changeme
+module github.com/OzkrOssa/redvisor-react
 
 go 1.18
 
-require github.com/wailsapp/wails/v2 v2.4.1
+require (
+	github.com/wailsapp/wails/v2 v2.4.1
+	gopkg.in/routeros.v2 v2.0.0-20190905230420-1bbf141cdd91
+)
 
 require (
 	github.com/bep/debounce v1.2.1 // indirect
