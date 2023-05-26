@@ -1,61 +1,45 @@
-import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import { Hit} from "./components/Hit";
+import algoliasearch from "algoliasearch/lite";
+import { Hit } from "./components/Hit";
 import {
-    InstantSearch,
-    Configure,
-    Hits,
-    SearchBox,
-    DynamicWidgets,
-    RefinementList,
-    Pagination,
-  } from 'react-instantsearch-dom';
+  InstantSearch,
+  Configure,
+  Hits,
+  SearchBox,
+  DynamicWidgets,
+  RefinementList,
+  Pagination,
+} from "react-instantsearch-dom";
 
-const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-    server: {
-        apiKey: '', // Be sure to use the search-only-api-key
-        nodes: [
-            {
-                host: '',
-                port: 8108,
-                protocol: "http"
-            }
-        ]
-    },
-    // The following parameters are directly passed to Typesense's search API endpoint.
-    //  So you can pass any parameters supported by the search endpoint below.
-    //  queryBy is required.
-    additionalSearchParameters: {
-        query_by: "name"
-    }
-});
-const searchClient = typesenseInstantsearchAdapter.searchClient;
+const appID = process.env.ALGOLIA_APP_ID;
+const apiKey = process.env.ALGOLIA_API_KEY;
+
+const searchClient = algoliasearch(apiID, apiKey);
 
 function App() {
+  return (
+    <InstantSearch searchClient={searchClient} indexName="redplanet_users">
+      <Configure hitsPerPage={9} />
+      <div className="font-roboto">
+        <div>
+          <DynamicWidgets fallbackWidget={RefinementList}></DynamicWidgets>
+        </div>
 
-    return (
-        <InstantSearch searchClient={searchClient} indexName="users">
-            <Configure hitsPerPage={8} />
-            <div>
-                <div>
-                    <DynamicWidgets fallbackWidget={RefinementList}></DynamicWidgets>
-                </div>
+        <div className="m-4">
+          <SearchBox
+            className="searchbox"
+            translations={{
+              placeholder: "Benito Camelas....",
+            }}
+          />
+          <Hits hitComponent={Hit} />
 
-                <div >
-                    <SearchBox
-                        className="searchbox"
-                        translations={{
-                            placeholder: '',
-                        }}
-                    />
-                    <Hits hitComponent={Hit} />
-
-                    <div>
-                        <Pagination />
-                    </div>
-                </div>
-            </div>
-        </InstantSearch>
-    )
+          <div>
+            <Pagination />
+          </div>
+        </div>
+      </div>
+    </InstantSearch>
+  );
 }
 
-export default App
+export default App;
