@@ -3,9 +3,20 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "Nunito";
-    font-style: normal;
-    font-weight: 400;
-    src: local(""),
-    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
+    font-family: 'Roboto';
+    src: url('./assets/fonts/roboto.woff2') format('woff2'),
+         url('./assets/fonts/roboto.woff') format('woff');
+    /* Ajusta la ruta de la fuente según la estructura de tu proyecto */
+  }
+  
+.ais-Hits-list{
+    @apply grid grid-cols-3
+}
+.ais-Hits-item{
+    box-shadow: none;
+    @apply items-center justify-center
+    
+}
+.ais-Pagination-list{
+    @apply items-center justify-center
 }
